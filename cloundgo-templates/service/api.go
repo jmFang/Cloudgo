@@ -39,3 +39,9 @@ func apiFetchDataHandler(formatter *render.Render) http.HandlerFunc {
 		formatter.Text(w, http.StatusOK, "更多精彩请积极认真学习golang")
 	}
 }
+
+func NotImplementedHandler() http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		fmt.Fprintln(w, "501 Not Implemented.")
+	})
+}

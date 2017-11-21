@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"net/http"
 	"os"
-	"strings"
 
 	"github.com/codegangsta/negroni"
 	"github.com/gorilla/mux"
@@ -43,18 +42,12 @@ func initRoutes(mx *mux.Router, formatter *render.Render) {
 	//中间件的顺序很重要
 
 	//
-	mx.HandleFunc("/api/data", apiFetchDataHandler(formatter)).Methods("GET")
-	mx.PathPrefix("/api").HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		url := r.URL.Path
-		if strings.Index(url, "/api") == 0 {
-			if strings.Index(url, "/api/data") != 0 {
-				fmt.Fprintln(w, "501 Not Implemented ")
-			}
-		}
-	})
 	//支持静态文件访问
 	mx.PathPrefix("/static").Handler(http.StripPrefix("/static/", http.FileServer(http.Dir(webRoot+"/assets/"))))
 	mx.HandleFunc("/", homeHandler(formatter)).Methods("GET")
 	mx.HandleFunc("/result", submit(formatter)).Methods("POST")
 	mx.PathPrefix("/").Handler(http.FileServer(http.Dir(webRoot + "/assets/")))
+	mx.HandleFunc("/api/data", apiFetchDataHandler(formatter)).Methods("GET")
+	mx.PathPrefix("/api/").Handler(NotImplementedHandler())
+
 }
