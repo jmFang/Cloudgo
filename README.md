@@ -2,7 +2,7 @@
 
 ## web application practice
 
-### 基本功能
+## 基本功能
 
 1.支持静态文件服务
 
@@ -12,18 +12,18 @@
 
 4.对 /unknown 给出开发中的提示，返回码 5xx
 
-### 基本的service
+## 基本的service
 
 ```
-	mx.PathPrefix("/static").Handler(http.StripPrefix("/static/", http.FileServer(http.Dir(webRoot+"/assets/"))))
-	mx.HandleFunc("/", homeHandler(formatter)).Methods("GET")
-	mx.HandleFunc("/result", submit(formatter)).Methods("POST")
-	mx.PathPrefix("/").Handler(http.FileServer(http.Dir(webRoot + "/assets/")))
-	mx.HandleFunc("/api/data", apiFetchDataHandler(formatter)).Methods("GET")
-	mx.PathPrefix("/api/").Handler(NotImplementedHandler())
+mx.PathPrefix("/static").Handler(http.StripPrefix("/static/", http.FileServer(http.Dir(webRoot+"/assets/"))))
+mx.HandleFunc("/", homeHandler(formatter)).Methods("GET")
+mx.HandleFunc("/result", submit(formatter)).Methods("POST")
+mx.PathPrefix("/").Handler(http.FileServer(http.Dir(webRoot + "/assets/")))
+mx.HandleFunc("/api/data", apiFetchDataHandler(formatter)).Methods("GET")
+mx.PathPrefix("/api/").Handler(NotImplementedHandler())
 ```
 
-#### 静态文件访问
+## 静态文件访问
 
 ```
   sysuygm@localhost:~$ curl localhost:8080/static/css/main.css
@@ -48,7 +48,7 @@
   </pre>
 
 ```
-#### 支持简单的js
+## 支持简单的js
 
 ```
 $(document).ready(function() {
@@ -56,4 +56,21 @@ $(document).ready(function() {
 });
 ```
 
-#### 简单的表单提交和返回
+## 简单的表单提交和返回
+
+![](https://github.com/jmFang/Cloudgo/blob/master/cloundgo-templates/assets/images/index.png)
+
+![](https://github.com/jmFang/Cloudgo/blob/master/cloundgo-templates/assets/images/result.png)
+
+## 状态码
+
+![](https://github.com/jmFang/Cloudgo/blob/master/cloundgo-templates/assets/images/unkwon.png)
+
+```
+func NotImplementedHandler() http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		fmt.Fprintln(w, "501 Not Implemented.")
+	})
+}
+
+```
