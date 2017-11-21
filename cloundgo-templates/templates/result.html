@@ -1,0 +1,31 @@
+<html>
+<head>
+  <link rel="stylesheet" href="./css/main.css"/>
+  <script src="http://code.jquery.com/jquery-latest.js"></script>
+  <script src="./js/fetchData.js"></script>
+</head>
+<body>
+  <form>
+    <h1>手机销量，Q1，Q2，Q3，Q3同比，Q3比上季</h1>
+      <div>
+        <span class="span" name="huawei">华为:</span> {{ .Huawei}}
+      </div>
+      <div>
+    	   <span class="span" name="oppo">OPPO:</span> {{ .Oppo}}
+      <div>
+      <div>
+      	<span class="span" name="xiaomi">小米:<span> {{ .Xiaomi}}
+      <div>
+      <div>
+        <span class="span" name="ov">OV:<span> {{ .Ov}}
+      <div>
+      <div>
+        <span class="span" name="apple">Apple:<span> {{.Apple}}
+      <div>
+  </form>
+  <div>
+    <button id="more">更多</button>
+  </div>
+  <div id="moretext">更多数据请访问：golang.zh.com</div>
+</body>
+</html>
