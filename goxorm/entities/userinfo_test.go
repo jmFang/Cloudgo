@@ -1,4 +1,4 @@
-package goxorm
+package entities
 
 import (
 	"fmt"
