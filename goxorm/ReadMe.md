@@ -79,3 +79,30 @@ sysuygm@localhost:~/golang-workspace/src/Cloudgo/goxorm$
 
 
 ```
+## 添加 .travis.yml 在线测试
+
+```
+Cloning into 'jmFang/Cloudgo'...
+remote: Counting objects: 85, done.
+remote: Compressing objects: 100% (73/73), done.
+remote: Total 85 (delta 21), reused 53 (delta 7), pack-reused 0
+Unpacking objects: 100% (85/85), done.
+$ cd jmFang/Cloudgo
+$ git checkout -qf 520f9d74c72bb29b5c6d18571fed550e671ef6f6
+Updating gimme
+144.24s$ GIMME_OUTPUT="$(gimme tip | tee -a $HOME/.bashrc)" && eval "$GIMME_OUTPUT"
+go version devel +21672b36eb Wed Nov 29 05:17:03 2017 +0000 linux/amd64
+$ export GOPATH=$HOME/gopath
+$ export PATH=$HOME/gopath/bin:$PATH
+$ mkdir -p $HOME/gopath/src/github.com/jmFang/Cloudgo
+$ rsync -az ${TRAVIS_BUILD_DIR}/ $HOME/gopath/src/github.com/jmFang/Cloudgo/
+$ export TRAVIS_BUILD_DIR=$HOME/gopath/src/github.com/jmFang/Cloudgo
+$ cd $HOME/gopath/src/github.com/jmFang/Cloudgo
+0.01s
+$ gimme version
+v1.2.0
+$ go version
+go version devel +21672b36eb Wed Nov 29 05:17:03 2017 +0000 linux/amd64
+...
+...
+```
