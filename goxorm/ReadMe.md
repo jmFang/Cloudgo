@@ -1,5 +1,7 @@
 
-## 目录
+# 作业完成情况
+
+## 基本要求
 
 1. 根据课程要求，使用`xorm`改写课程资料上使用的“entity - dao - service” 层次结构模型（（xorm下不再需要编写复杂的——"dao"服务）
 
@@ -9,11 +11,15 @@
 
 4. web 服务 `curl` 测试
 
-5. `ab` 性能测试
+## 扩展要求
 
-# Main parts
+5. 使用 `ab` 性能测试
 
-## 1. import
+6. 对比 database/sql 与 orm 实现的异同
+
+## some introduction
+
+### 1. import
 
 ```
   import (
@@ -22,7 +28,7 @@
   )
 ```
 
-## 2. initialize
+### 2. initialize
 
 ```
   func init() {
@@ -38,7 +44,7 @@
   
 ```
 
-## 3. Transaction
+### 3. Transaction
 
 
 ```
@@ -65,7 +71,8 @@
 ```
 
 
-# Testing
+## Testing
+
 ## 1. testing 单元测试
 ```
 sysuygm@localhost:~/golang-workspace/src/Cloudgo/goxorm$ go test -v
@@ -263,3 +270,10 @@ Percentage of the requests served within a certain time (ms)
 sysuygm@localhost:~$ 
 
 ```
+## 5. 对比 database/sql 与 orm 实现的异同
+
+1. 相比database/sql，使用orm的变成效率明显要高，因为期间不需要复杂的像dao的编程。
+
+2. 对orm的操作做一些适当的包装之后，其程序结构和使用database/sql编写发程序结构相差不大。
+
+3.从性能测试上看，使用原生的database/sql的服务性能更好。
