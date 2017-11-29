@@ -12,6 +12,8 @@
 
 4.对 /unknown 给出开发中的提示，返回码 5xx
 
+代码位于cloundgo-templates目录下
+
 ## 基本的service
 
 ```
