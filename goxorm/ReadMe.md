@@ -1,7 +1,7 @@
 
 ## Use xorm to build database engine service 
 
-使用xorm创建数据库引擎处理数据CRUD
+根据课程要求，使用xorm改写课程资料上使用的“entity - dao - service” 层次结构模型，同样地，创建数据服务并进行简单测试。xorm下不再需要编写复杂的——"dao"服务。
 
 # Main parts
 
