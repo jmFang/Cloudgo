@@ -1,29 +1,75 @@
 
+## Use xorm to build database engine service 
+
+使用xorm创建数据库引擎处理数据CRUD
+
+# Main parts
+
+## 1. import
+
+```
+  import (
+    _ "github.com/go-sql-driver/mysql"
+    "github.com/go-xorm/xorm"
+  )
+```
+
+## 2. initialize
+
+```
+  func init() {
+    //https://stackoverflow.com/questions/45040319/unsupported-scan-storing-driver-value-type-uint8-into-type-time-time
+    engine, err := xorm.NewEngine("mysql", "root:root@tcp(127.0.0.1:3306)/test?charset=utf8")
+    //db, err := sql.Open("mysql", "root:root@tcp(127.0.0.1:3306)/test?charset=utf8&parseTime=true")
+    if err != nil {
+      panic(err)
+    }
+    //mydb = db
+    myengine = engine
+    engine.Sync2(new(UserInfo))
+  }
+  
+```
+
+## 3. Transaction
 
 
 ```
+  func (*UserInfoAtomicService) Save(u *UserInfo) error {
+
+    session := myengine.NewSession()
+    defer session.Clone()
+
+    //add Begin() before any action
+    err := session.Begin()
+    checkErr(err)
+
+    _, err = session.Insert(u)
+
+    if err != nil {
+      session.Rollback()
+      return err
+    }
+    // add commit after all actions
+    err = session.Commit()
+    checkErr(err)
+    return nil
+  }
+```
+
+
+# Testing
+
+```
 sysuygm@localhost:~/golang-workspace/src/Cloudgo/goxorm$ go test -v
-[xorm] [warn]  2017/11/29 22:03:12.390745 Table user_info Column username db default is , struct default is null
-[xorm] [warn]  2017/11/29 22:03:12.390787 Table user_info Column departname db default is , struct default is null
-[xorm] [warn]  2017/11/29 22:03:12.390796 Table user_info Column created db default is , struct default is null
-[xorm] [warn]  2017/11/29 22:03:12.390805 Table user_info has column u_i_d but struct has not related field
-[xorm] [warn]  2017/11/29 22:03:12.390812 Table user_info has column user_name but struct has not related field
-[xorm] [warn]  2017/11/29 22:03:12.390818 Table user_info has column depart_name but struct has not related field
-[xorm] [warn]  2017/11/29 22:03:12.390824 Table user_info has column create_at but struct has not related field
 === RUN   TestService
 === Test 'Save' Successfully!
 === Test 'FindAll' Successfully!. Finding result is : {42 sysu sdcs 2017-11-29 00:00:00 +0800 CST} 
 === Test 'FindById' Successfully!.--- PASS: TestService (0.09s)
 PASS
 ok  	Cloudgo/goxorm	0.098s
+
 sysuygm@localhost:~/golang-workspace/src/Cloudgo/goxorm$ go test -v
-[xorm] [warn]  2017/11/29 22:05:05.464789 Table user_info Column username db default is , struct default is null
-[xorm] [warn]  2017/11/29 22:05:05.464821 Table user_info Column departname db default is , struct default is null
-[xorm] [warn]  2017/11/29 22:05:05.464824 Table user_info Column created db default is , struct default is null
-[xorm] [warn]  2017/11/29 22:05:05.464828 Table user_info has column u_i_d but struct has not related field
-[xorm] [warn]  2017/11/29 22:05:05.464831 Table user_info has column user_name but struct has not related field
-[xorm] [warn]  2017/11/29 22:05:05.464834 Table user_info has column depart_name but struct has not related field
-[xorm] [warn]  2017/11/29 22:05:05.464836 Table user_info has column create_at but struct has not related field
 === RUN   TestService
 === Test 'Save' Successfully!
 === Test 'FindAll' Successfully!. Finding result is : {43 sysu sdcs 2017-11-29 00:00:00 +0800 CST} 
